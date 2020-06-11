@@ -10,6 +10,7 @@ rootDirectory = os.getcwd()
 videoFiles = []
 photoDirectories = []
 photoFiles = []
+wikiti = "person" #change for user selection
 
 def ListImgFiles():
     os.chdir("InputVideos")
@@ -21,11 +22,14 @@ def ListImgFiles():
     i = 0
     for loc in photoDirectories: # separa directorios de archivos de videos
         os.chdir(loc)
+
         for x in os.listdir():
+
             photoFiles.append(x)
 
         for photos in photoFiles: # coge cada archivo de imagen del directorio
-            ParseImage(photos, rootDirectory)
+
+            ParseImage(photos, rootDirectory, loc, wikiti)
 
         photoFiles.clear()
         print("Vuelta " + str(i))
