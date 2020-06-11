@@ -1,12 +1,14 @@
 import os, cv2
 import numpy as np
+import shutil as sht
 from VideoFramesExtractor import ExtractVideoFrames
 import matplotlib.pyplot as plt
 
 
 
-def ParseImage(imgFile, rootDirectory):
+def ParseImage(imgFile, rootDirectory, imgDirectory, UserSelection):
     # load YOLO
+    print(str(imgFile))
     absolutePath = rootDirectory
     net = cv2.dnn.readNet(absolutePath+'/yolov3.weights', absolutePath+'/yolov3.cfg')
     classes = []
@@ -58,11 +60,18 @@ def ParseImage(imgFile, rootDirectory):
     font = cv2.FONT_HERSHEY_PLAIN
     for i in range(len(boxes)):
         if i in indexes:
-            x, y, w, h = boxes[i]
-            label = str(classes[class_ids[i]])
-            color = colors[i]
-            cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
-            cv2.putText(img, label, (x, y + 30), font, 3, color, 3)
-    cv2.imshow("Image", img)
-    cv2.waitKey(0)
+            label = str(classes[class_ids[i]]) #label is the detection name
+            if(label == UserSelection):
+                color = colors[i]
+                cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
+                cv2.putText(img, label, (x, y + 30), font, 3, color, 3)
+
+    #cv2.imshow("Image", img)    # Indicates path and change method to cv2.imwrite(name, img)
+
+    #os.chdir('Prediction')
+    filename = "Prediction"+imgDirectory+str(imgFile)
+    cv2.imwrite(filename, img) #saves img
+
+    sht.move(filename ,absolutePath+"/Prediction/"+filename) #Separar en carpetas de video correspondiente
+
     cv2.destroyAllWindows()

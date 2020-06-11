@@ -1,2 +1,4 @@
 
 VideoProcesingProject/yolov3.weights
+VideoProcesingProject/Prediction/*
+VideoProcesingProject/__pycache__/*
