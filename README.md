@@ -1,4 +1,4 @@
-# VideoProcessingAndAnalysis
+# Video processing and analysis
 
 for now the program is in charge of dividing the video into frames, to then analyze one by one and define the object or objects that are in it,
 it is mainly intended to identify people in the video and optimize time when reviewing security videos.
