@@ -10,9 +10,34 @@ rootDirectory = os.getcwd()
 videoFiles = []
 photoDirectories = []
 photoFiles = []
-wikiti = "person" #change for user selection
+title = """
+ _     _  ____  _________    ____  ____  ____  ____  _________  ____  _  _     _____   _____  ____  ____  _
+/ \ |\/ \/  _ \/  __/  _ \  /  __\/  __\/  _ \/   _\/  __/ ___\/ ___\/ \/ \  //  __/  /__ __\/  _ \/  _ \/ \
+| | //| || | \||  \ | / \|  |  \/||  \/|| / \||  /  |  \ |    \|    \| || |\ || |  _    / \  | / \|| / \|| |
+| \// | || |_/||  /_| \_/|  |  __/|    /| \_/||  \_ |  /_\___ |\___ || || | \|| |_//    | |  | \_/|| \_/|| |_/\
+\__/  \_/\____/\____\____/  \_/   \_/\_\\____/\____/\____\____/\____/\_/\_/  \\____\    \_/  \____/\____/\____/
 
-def ListImgFiles():
+"""
+
+def createFolders():
+    Iv = 0
+    Pd = 0
+    DirList = os.listdir()
+    for dirs in DirList:
+        if dirs == "InputVideos":
+            Iv = 1
+        if dirs == "Prediction":
+            Pd = 1
+    if Iv == 0:
+        os.mkdir("InputVideos")
+    if Pd == 0:
+        os.mkdir("Prediction")
+
+
+
+
+
+def ListImgFiles(wikiti):
     os.chdir("InputVideos")
     InputDirectory = os.getcwd()
     DirList = os.listdir()
@@ -29,7 +54,7 @@ def ListImgFiles():
             ParseImage(photos, rootDirectory, loc, wikiti)
 
         photoFiles.clear()
-        print("Vuelta " + str(i))
+
         os.chdir(InputDirectory)
         i +=1
 
@@ -57,10 +82,37 @@ def ExtractFrames():
 
 
 
+
+
+
 def run():
+    print(title)
+    print("\n Select a object to find in videos and then press enter")
+    Selected = int(input("\nSelect a option (1-6) \n 1.Pearsons \n 2.Dogs \n 3.cat \n 4.Cars \n 5.Motorbikes \n 6.Traffic Light\n==: "))
+
+    if Selected == 1:
+        wikiti = "person"
+    if Selected == 2:
+        wikiti = "dog"
+    if Selected == 3:
+        wikiti = "cat"
+    if Selected == 4:
+        wikiti = "car"
+    if Selected == 5:
+        wikiti = "motorbike"
+    if Selected == 6:
+        wikiti = "traffic light"
+
+    input("\n Put the video files in 'InputVideos' folder and then press enter")
+
+
+
+
     ListVideoFiles()
+
     ExtractFrames()
-    ListImgFiles()
+
+    ListImgFiles(wikiti)
 
 
 
