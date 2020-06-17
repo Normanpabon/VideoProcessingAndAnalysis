@@ -21,7 +21,7 @@ def ParseImage(imgFile, rootDirectory, imgDirectory, UserSelection):
     colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
     # Loading image
-    print("DEBUG ", str(imgFile))
+
     img = cv2.imread(imgFile)
     img = cv2.resize(img, None, fx=0.4, fy=0.4)
     height, width, channels = img.shape
@@ -74,7 +74,7 @@ def ParseImage(imgFile, rootDirectory, imgDirectory, UserSelection):
     #os.chdir('Prediction')
 
     if UserSelection == 1:
-        print('\n'+str(imgDirectory))
+
         actualDir = os.getcwd()
         filename = "Prediction"+imgDirectory+str(imgFile)
         cv2.imwrite(filename, img) #saves img
