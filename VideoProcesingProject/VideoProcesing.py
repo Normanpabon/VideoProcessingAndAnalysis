@@ -1,4 +1,4 @@
-import os
+import os, wget
 from VideoFramesExtractor import ExtractVideoFrames
 from OpenCvManager import ParseImage
 import matplotlib.pyplot as plt
@@ -34,6 +34,26 @@ def createFolders():
         os.mkdir("Prediction")
 
 
+def checkRequirements():
+    yoloExists = 0
+    FilesInRoot = os.listdir()
+    for file in FilesInRoot:
+        if file == "yolov3.weights":
+            yoloExists = 1
+
+
+    if yoloExists == 0:
+        print("\n'Yolov3.weights' file not found, the file needs to be in project main directory \nDownload the missed file ? it can take arround 20 mins")
+        downloadFile = str(input("\n Select a option (1-2)\n 1. Yes \n 2. Exit \n == "))
+        if downloadFile == '1':
+            print("\nStarting download... ")
+            fileD = 'https://pjreddie.com/media/files/yolov3.weights'
+            filename = wget.download(fileD)
+            print("\nDownload completed succesfully")
+
+
+        else:
+            exit()
 
 
 
@@ -41,16 +61,16 @@ def ListImgFiles(wikiti):
     os.chdir("InputVideos")
     InputDirectory = os.getcwd()
     DirList = os.listdir()
-    for dir in DirList:     #obtiene los directorios generados
+    for dir in DirList:     #obtains the new directories
         if os.path.isdir(dir):
             photoDirectories.append(dir)
     i = 0
-    for loc in photoDirectories: # separa directorios de archivos de videos
+    for loc in photoDirectories: # splits video directories
         os.chdir(loc)
         for x in os.listdir():
             photoFiles.append(x)
 
-        for photos in photoFiles: # coge cada archivo de imagen del directorio
+        for photos in photoFiles: # takes every photo from the directory
             ParseImage(photos, rootDirectory, loc, wikiti)
 
         photoFiles.clear()
@@ -87,8 +107,15 @@ def ExtractFrames():
 
 def run():
     print(title)
+
+    createFolders()
+
+    input("\n Put the video files in 'InputVideos' folder and then press enter")
+
+    checkRequirements()
+
     print("\n Select a object to find in videos and then press enter")
-    Selected = int(input("\nSelect a option (1-6) \n 1.Pearsons \n 2.Dogs \n 3.cat \n 4.Cars \n 5.Motorbikes \n 6.Traffic Light\n==: "))
+    Selected = int(input("\nSelect a option (1-6) \n 1.People \n 2.Dogs \n 3.cat \n 4.Cars \n 5.Motorbikes \n 6.Traffic Light\n==: "))
 
     if Selected == 1:
         wikiti = "person"
@@ -103,7 +130,7 @@ def run():
     if Selected == 6:
         wikiti = "traffic light"
 
-    input("\n Put the video files in 'InputVideos' folder and then press enter")
+
 
 
 

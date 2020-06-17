@@ -9,8 +9,9 @@ it is mainly intended to identify people in the video and optimize time when rev
 - Python +3.6
 - opencv-python (install using pip install opencv-python)
 - yolo3.weights (you can get the file here: https://pjreddie.com/media/files/yolov3.weights)
+- wget (to download yolo3.weights directly )
 - shutil
-- matplotlib
+- matplotlib (install using pip install matplotlib)
 
 
 # Usage

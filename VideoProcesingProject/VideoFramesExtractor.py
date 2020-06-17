@@ -9,7 +9,7 @@ def ExtractVideoFrames(VideoName):
     capture = cv2.VideoCapture(videoLocation)
     i = 0
     newFolderName = VideoName + 'Frames'
-    if os.path.isdir(newFolderName):  # Verifica si la carpeta ya existe, si no existe la crea
+    if os.path.isdir(newFolderName):
         pass
     else:
         os.mkdir(newFolderName)
