@@ -10,6 +10,7 @@ rootDirectory = os.getcwd()
 videoFiles = []
 photoDirectories = []
 photoFiles = []
+TotalFiles = 0
 title = """
  _     _  ____  _________    ____  ____  ____  ____  _________  ____  _  _     _____   _____  ____  ____  _
 / \ |\/ \/  _ \/  __/  _ \  /  __\/  __\/  _ \/   _\/  __/ ___\/ ___\/ \/ \  //  __/  /__ __\/  _ \/  _ \/ \
@@ -57,21 +58,37 @@ def checkRequirements():
 
 
 
-def ListImgFiles(wikiti):
+def PrintProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
+
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end = printEnd)
+    # Print New Line on Complete
+    if iteration == total:
+        print()
+
+
+def ListImgFiles(wikiti, TotalFiles):
     os.chdir("InputVideos")
     InputDirectory = os.getcwd()
     DirList = os.listdir()
+
+    print('DEBUG TOTAL SIZE: '+str(TotalFiles))
     for dir in DirList:     #obtains the new directories
         if os.path.isdir(dir):
             photoDirectories.append(dir)
     i = 0
+    z = 0
     for loc in photoDirectories: # splits video directories
         os.chdir(loc)
         for x in os.listdir():
             photoFiles.append(x)
 
         for photos in photoFiles: # takes every photo from the directory
+            PrintProgressBar(iteration=z, total=TotalFiles, prefix = 'Progress:', suffix = 'Complete', length = 50)
             ParseImage(photos, rootDirectory, loc, wikiti)
+            z += 1
 
         photoFiles.clear()
 
@@ -98,8 +115,24 @@ def ExtractFrames():
         os.chdir(rootDirectory)
     print("Frames extracted correctly")
 
+def ListAllFiles():
+    returnToFolder = os.getcwd()
 
+    print('DEBUG FOLDER'+str(os.getcwd()))
 
+    os.chdir(rootDirectory+'/InputVideos')
+    directoryList = os.listdir()
+    allFilesList = []
+    for directory in directoryList:
+        if os.path.isdir(directory):
+            os.chdir(directory)
+            filesinFolder = os.listdir()
+            for files in filesinFolder:
+                allFilesList.append(files)
+            os.chdir(rootDirectory+'/InputVideos')
+    os.chdir(returnToFolder)
+
+    return len(allFilesList)
 
 
 
@@ -113,6 +146,10 @@ def run():
     input("\n Put the video files in 'InputVideos' folder and then press enter")
 
     checkRequirements()
+
+    ListAllFiles()
+
+    TotalFiles = int(ListAllFiles())
 
     print("\n Select a object to find in videos and then press enter")
     Selected = int(input("\nSelect a option (1-6) \n 1.People \n 2.Dogs \n 3.cat \n 4.Cars \n 5.Motorbikes \n 6.Traffic Light\n==: "))
@@ -139,7 +176,7 @@ def run():
 
     ExtractFrames()
 
-    ListImgFiles(wikiti)
+    ListImgFiles(wikiti, TotalFiles)
 
 
 
