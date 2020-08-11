@@ -20,3 +20,8 @@ it is mainly intended to identify people in the video and optimize time when rev
 - Put the videos that you want to parse in "InputVideos" Folder
 - Just run "VideoProcesing.py" and wait for the program to finish
 - The output folder is "Prediction"
+
+# TODO
+
+- Implement the report system over smpt and email
+
